@@ -43,6 +43,10 @@ h1 {
   text-transform: uppercase;
 }
 
+p {
+  color: #fff;
+}
+
 .btn-wrapper {
   margin-top: 20px;
   display: flex;
