@@ -82,8 +82,18 @@ const App: React.FC = () => {
           interimRef.current = interim.trim();
 
           // Prevent double-stop from subsequent result/end events
-          stoppingRef.current = true;
-          stopRecording(totalToSend);
+          // stoppingRef.current = true;
+          // stopRecording(totalToSend);
+
+          // SEND (do not stop recognition)
+          void sendToOpenAI(totalToSend);
+
+          // RESET transcript so they can keep talking without pressing Start
+          setFinalTranscript("");
+          setInterimTranscript("");
+          finalRef.current = "";
+          interimRef.current = "";
+
           return;
         }
       }
@@ -120,15 +130,8 @@ const App: React.FC = () => {
     try { recognitionRef.current.start(); } catch {}
   };
 
-  const stopRecording = async (total?: string) => {
-    console.log("Stopping recording");
+  const stopRecording = async () => {
     try { recognitionRef.current?.stop(); } catch {}
-    console.log("Stopping recording 2");
-
-    console.log("total before send:", total);
-    if (total) {
-      await sendToOpenAI(total);
-    }
   };
 
   /** Call OpenAI *from the browser* (demo-only) */
